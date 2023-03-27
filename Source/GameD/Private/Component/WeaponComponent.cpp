@@ -55,9 +55,14 @@ void UWeaponComponent::ChooseWeapon()
 {
 }
 
-float UWeaponComponent::CalculateDamage()
+float UWeaponComponent::CalculateDamage(FSpecialWeaponAbility* WeaponSpecialAbility, UDamageType* DamageType, UDamageType* EnemyDamageResist, int32 CharSTR, int32 CharAGY, int32 MAG, AActor* EnemyActor)
 {
-	return 0.0f;
+	
+	Damage += (WeaponSpecialAbility.STR +CharSTR) * 1;
+	Damage += (WeaponSpecialAbility.STR) * 1;
+	Damage += WeaponSpecialAbility.AGY * 1;
+	Damage += WeaponSpecialAbility.MAG * 1;
+	return Damage;
 }
 
 void UWeaponComponent::CheckAmmo()

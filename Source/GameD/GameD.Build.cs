@@ -10,7 +10,7 @@ public class GameD : ModuleRules
 
 		PublicDependencyModuleNames.AddRange(new string[] { "Core", "CoreUObject", "Engine", "InputCore", "HeadMountedDisplay" });
 
-        PublicIncludePaths.AddRange(new string[] { "GameD/Public/Components" });
-        PrivateIncludePaths.AddRange(new string[] { "GameD/Private/Components" });
+        PublicIncludePaths.AddRange(new string[] { "GameD/Public/Component" });
+        PrivateIncludePaths.AddRange(new string[] { "GameD/Private/Component" });
     }
 }
