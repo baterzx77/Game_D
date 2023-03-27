@@ -10,5 +10,5 @@ public class GameDTarget : TargetRules
 		Type = TargetType.Game;
 		DefaultBuildSettings = BuildSettingsVersion.V2;
 		ExtraModuleNames.Add("GameD");
-	}
+    }
 }

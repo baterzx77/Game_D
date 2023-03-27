@@ -8,6 +8,7 @@
 #include "GameFramework/CharacterMovementComponent.h"
 #include "GameFramework/Controller.h"
 #include "GameFramework/SpringArmComponent.h"
+#include "Kismet/GameplayStatics.h"
 
 //////////////////////////////////////////////////////////////////////////
 // AGameDCharacter
@@ -74,6 +75,26 @@ void AGameDCharacter::SetupPlayerInputComponent(class UInputComponent* PlayerInp
 
 	// VR headset functionality
 	PlayerInputComponent->BindAction("ResetVR", IE_Pressed, this, &AGameDCharacter::OnResetVR);
+}
+
+void AGameDCharacter::CollectByAttraction()
+{
+	//UGameplayStatics::GetAllActorsWithTag(GetWorld(), "Collactable", EnemyActorArrayToSelect);
+
+	//for (size_t i = 0; i < EnemyActorArrayToSelect.Num(); i++)
+	//{
+	//	if (GetDistanceTo(EnemyActorArrayToSelect[i])<Radius)
+	//	{
+	//		//AItem* Item = Cast<CollactableItem>(EnemyActorArrayToSelect[i]);
+	//		//Item->Attract();
+	//	}
+	//}
+
+	//or by delegate
+
+	/*if (AttractableItem->GetDistanceTo(this) < Radius) {
+		AttractableItem.Attract(this);
+	}*/
 }
 
 
