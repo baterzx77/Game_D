@@ -103,6 +103,8 @@ public:
 
 	void Death();
 
+
+
 	void UseAbility(int32 AbilityID);
 
 	void Cooldown(float CDTime);
