@@ -86,6 +86,64 @@ public:
 	UPROPERTY(EditAnywhere)//, meta = TEXT("SpecialAbilities"))
 		float Radius = 0;
 
+	void GetAllActorInArea(TArray<AActor*> &EnemyActorInRange);
+
+	void SelectTarget();
+
+	void SwitchTarget(int32 CurrentTargetNum);
+
+	bool CheckIfTargetIsDead(AActor* EnemyActor);
+
+	bool CheckLineOfSingt(AActor* EnemyActor);
+
+
+
+	void Attack(AActor* EnemyActor);
+
+	//void TakeDamage();
+
+	void CheckHealth();
+
+	void Death();
+
+
+
+	void UseAbility(int32 AbilityID);
+
+	void Cooldown(float CDTime);
+
+	bool Interrupt();
+
+	void SelectStrategy();
+
+	void DetermineAttackType();
+
+	void CheckEnemyType();
+
+	void ChooseWeapon();
+
+	float CalculateDamage();
+
+	bool Dodge();
+
+	bool Parry();
+
+	void ApplyStatusEffect(int32 StatusID);
+
+	void UseConsumable(int32 ID);
+
+	void CheckAmmo();
+
+	void UpdateHUD();
+
+	void UseSkill(int32 ID);
+
+	//void Retreat();
+
+	void UpdateAI();
+
+	void ApplyHealing(float Heal);
+
 	void CollectByAttraction();
 
 };
