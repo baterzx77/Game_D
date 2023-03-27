@@ -53,28 +53,28 @@ void USelectTypeGameComponent::GetAllActorInArea(TArray<AActor*>& EnemyActorInRa
 	}
 }
 
-FVector USelectTypeGameComponent::SwitchTarget(TArray<AActor*>& EnemyActorInRange)
-{
-	//if (EnemyActorInRange.Num() == 0) return;
-		for (int32 i = CurrentTarget; i < EnemyActorInRange.Num(); i++)
-		{
-			if (CurrentTarget == EnemyActorInRange.Num() - 1 && AliveEnemyInRange != 1)
-			{
-				i = 0;
-			}
-			else if (AliveEnemyInRange == 1)
-			{
-				CurrentTarget = i;
-			}
-			else
-			{
-				AActor* EA = Cast<AActor>(EnemyActorInRange[i]);
-				//if (EnemyActorInRange[i]->IsDead() == true) continue;
-				CurrentTarget = i;
-				return EA->GetActorLocation();
-			}
-		}
-}
+//FVector USelectTypeGameComponent::SwitchTarget(TArray<AActor*>& EnemyActorInRange)
+//{
+//	//if (EnemyActorInRange.Num() == 0) return;
+//		for (int32 i = CurrentTarget; i < EnemyActorInRange.Num(); i++)
+//		{
+//			if (CurrentTarget == EnemyActorInRange.Num() - 1 && AliveEnemyInRange != 1)
+//			{
+//				i = 0;
+//			}
+//			else if (AliveEnemyInRange == 1)
+//			{
+//				CurrentTarget = i;
+//			}
+//			else
+//			{
+//				AActor* EA = Cast<AActor>(EnemyActorInRange[i]);
+//				//if (EnemyActorInRange[i]->IsDead() == true) continue;
+//				CurrentTarget = i;
+//				return EA->GetActorLocation();
+//			}
+//		}
+//}
 
 bool USelectTypeGameComponent::CheckIfTargetIsDead(AActor* EnemyActor)
 {

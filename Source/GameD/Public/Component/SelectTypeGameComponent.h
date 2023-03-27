@@ -31,7 +31,7 @@ public:
 
 	void GetAllActorInArea(TArray<AActor*>& EnemyActorInRange);
 
-	FVector SwitchTarget(TArray<AActor*>& EnemyActorInRange);
+	//FVector SwitchTarget(TArray<AActor*>& EnemyActorInRange);
 
 	bool CheckIfTargetIsDead(AActor* EnemyActor);
 
