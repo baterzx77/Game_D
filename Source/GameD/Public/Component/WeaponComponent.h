@@ -68,6 +68,9 @@ public:
 	UPROPERTY(EditAnywhere)
 		FSpecialWeaponAbility WeaponSpecialAbility;
 
+	UPROPERTY(EditAnywhere)
+	TSubclassOf<UDamageType> DamageType;
+
 protected:
 	// Called when the game starts
 	virtual void BeginPlay() override;
@@ -78,7 +81,7 @@ public:
 
 	//For Weapon Component
 
-	void Attack(AActor* EnemyActor);
+	void Attack(AActor* EnemyActor, AController* PlayerController);
 	
 	bool CheckDistance(AActor* EnemyActor, AGameDCharacter* Character);
 
@@ -92,7 +95,7 @@ public:
 	//выбирает оружие для атаки, исходя из текущей ситуации.Например, если цель находится далеко, то может быть выбрано оружие для дальнего боя, а если цель слишком близко, то может быть выбрано оружие для ближнего боя.
 	void ChooseWeapon();
 
-	float CalculateDamage(FSpecialWeaponAbility* WeaponSpecialAbility,UDamageType* DamageType,UDamageType* EnemyDamageResist, int32 CharSTR, int32 CharAGY, int32 MAG, AActor* EnemyActor);
+	float CalculateDamage(AActor* EnemyActor);
 
 	void CheckAmmo();
 

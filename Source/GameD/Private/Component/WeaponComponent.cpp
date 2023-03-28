@@ -2,6 +2,8 @@
 
 
 #include "Component/WeaponComponent.h"
+#include "Kismet/GameplayStatics.h"
+#include "GameD/Public/EnemyActorD/EnemyActor_D.h"
 
 // Sets default values for this component's properties
 UWeaponComponent::UWeaponComponent()
@@ -32,10 +34,9 @@ void UWeaponComponent::TickComponent(float DeltaTime, ELevelTick TickType, FActo
 	// ...
 }
 
-void UWeaponComponent::Attack(AActor* EnemyActor)
+void UWeaponComponent::Attack(AActor* EnemyActor,AController* PlayerController)
 {
-	//CheckDistance(EnemyActor,)
-	
+	UGameplayStatics::ApplyDamage(EnemyActor, CalculateDamage(EnemyActor),GetOwner()->GetInstigatorController(), GetOwner()->GetInstigator(), DamageType);
 }
 
 bool UWeaponComponent::CheckDistance(AActor* EnemyActor, AGameDCharacter* Character)
@@ -55,13 +56,12 @@ void UWeaponComponent::ChooseWeapon()
 {
 }
 
-float UWeaponComponent::CalculateDamage(FSpecialWeaponAbility* WeaponSpecialAbility, UDamageType* DamageType, UDamageType* EnemyDamageResist, int32 CharSTR, int32 CharAGY, int32 MAG, AActor* EnemyActor)
+float UWeaponComponent::CalculateDamage(AActor* EnemyActor)
 {
-	
-	Damage += (WeaponSpecialAbility.STR +CharSTR) * 1;
-	Damage += (WeaponSpecialAbility.STR) * 1;
-	Damage += WeaponSpecialAbility.AGY * 1;
-	Damage += WeaponSpecialAbility.MAG * 1;
+	AEnemyActor_D* EActor = Cast<AEnemyActor_D>(EnemyActor);
+	EActor->PhisicalResist > Damage ? Damage = 0.f:Damage = Damage - EActor->PhisicalResist;
+	EActor->FireMagicResist > Damage ? Damage = 0.f : Damage += Damage - EActor->FireMagicResist;
+	EActor->IceMagicResist > Damage ? Damage = 0.f : Damage += Damage - EActor->IceMagicResist;
 	return Damage;
 }
 
