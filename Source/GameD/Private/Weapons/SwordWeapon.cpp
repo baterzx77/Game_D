@@ -3,6 +3,11 @@
 
 #include "Weapons/SwordWeapon.h"
 
+ASwordWeapon::ASwordWeapon()
+{
+
+}
+
 void ASwordWeapon::StartFire()
 {
 	IsAttacking = true;

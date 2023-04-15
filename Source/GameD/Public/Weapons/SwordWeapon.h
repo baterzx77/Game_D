@@ -15,6 +15,9 @@ class GAMED_API ASwordWeapon : public ABaseWeapon
 	GENERATED_BODY()
 	
 public:
+
+	ASwordWeapon();
+
 	virtual void StartFire() override;
 
 protected:
