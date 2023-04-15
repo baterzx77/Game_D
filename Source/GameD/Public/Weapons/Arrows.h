@@ -6,6 +6,7 @@
 #include "Weapons/BaseWeapon.h"
 #include "Arrows.generated.h"
 
+class UProjectileMovementComponent;
 
 /**
  * 
@@ -15,6 +16,12 @@ class GAMED_API AArrows : public ABaseWeapon
 {
 	GENERATED_BODY()
 	
+public:
+	AArrows();
+	void SetShotDirection(const FVector& Direction) { ShotDirection = Direction; }
+
+	UPROPERTY(VisibleDefaultsOnly, Category = "Weapon")
+		UProjectileMovementComponent* MovementComponent;
 protected:
-	
+	FVector ShotDirection;
 };

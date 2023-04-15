@@ -31,4 +31,7 @@ public:
 
 	UPROPERTY(EditAnywhere)
 		 TSubclassOf<AArrows> Arrow;
+
+	FVector GetMuzzleWorldLocation() const;
+	bool GetTraceData(FVector& TraceStart, FVector& TraceEnd) const;
 };
