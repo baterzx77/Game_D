@@ -2,6 +2,7 @@
 
 
 #include "EnemyActorD/EnemyActor_D.h"
+#include "Kismet/GameplayStatics.h"
 
 // Sets default values
 AEnemyActor_D::AEnemyActor_D()
@@ -15,7 +16,16 @@ AEnemyActor_D::AEnemyActor_D()
 void AEnemyActor_D::BeginPlay()
 {
 	Super::BeginPlay();
-	
+}
+
+float AEnemyActor_D::TakeDamage(float DamageAmount, FDamageEvent const& DamageEvent, AController* EventInstigator, AActor* DamageCauser)
+{
+	return 0;
+}
+
+void AEnemyActor_D::LogPrint(char st[])
+{
+	//UE_LOG(LogTemp, Warning, TEXT(char[]));
 }
 
 // Called every frame

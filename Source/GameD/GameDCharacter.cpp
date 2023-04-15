@@ -9,6 +9,8 @@
 #include "GameFramework/Controller.h"
 #include "GameFramework/SpringArmComponent.h"
 #include "Kismet/GameplayStatics.h"
+#include "Public/Component/WeaponComponent.h"
+
 
 //////////////////////////////////////////////////////////////////////////
 // AGameDCharacter
@@ -46,6 +48,9 @@ AGameDCharacter::AGameDCharacter()
 
 	// Note: The skeletal mesh and anim blueprint references on the Mesh component (inherited from Character) 
 	// are set in the derived blueprint asset named MyCharacter (to avoid direct content references in C++)
+
+	WComp = CreateDefaultSubobject<UWeaponComponent>("WeaponComponent");
+	
 }
 
 //////////////////////////////////////////////////////////////////////////
@@ -55,6 +60,7 @@ void AGameDCharacter::SetupPlayerInputComponent(class UInputComponent* PlayerInp
 {
 	// Set up gameplay key bindings
 	check(PlayerInputComponent);
+	check(WComp);
 	PlayerInputComponent->BindAction("Jump", IE_Pressed, this, &ACharacter::Jump);
 	PlayerInputComponent->BindAction("Jump", IE_Released, this, &ACharacter::StopJumping);
 
@@ -75,6 +81,8 @@ void AGameDCharacter::SetupPlayerInputComponent(class UInputComponent* PlayerInp
 
 	// VR headset functionality
 	PlayerInputComponent->BindAction("ResetVR", IE_Pressed, this, &AGameDCharacter::OnResetVR);
+
+	PlayerInputComponent->BindAction("jj", IE_Pressed, WComp, &UWeaponComponent::Attacks);
 }
 
 void AGameDCharacter::CollectByAttraction()
@@ -96,7 +104,6 @@ void AGameDCharacter::CollectByAttraction()
 		AttractableItem.Attract(this);
 	}*/
 }
-
 
 void AGameDCharacter::OnResetVR()
 {

@@ -5,6 +5,7 @@
 #include "CoreMinimal.h"
 #include "Components/ActorComponent.h"
 #include "GameD/GameDCharacter.h"
+#include "Weapons/BaseWeapon.h"
 #include "WeaponComponent.generated.h"
 
 USTRUCT()
@@ -76,14 +77,14 @@ protected:
 	virtual void BeginPlay() override;
 
 public:	
-	// Called every frame
-	virtual void TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction) override;
-
+	
 	//For Weapon Component
 
-	void Attack(AActor* EnemyActor, AController* PlayerController);
+	void Attacks();
+
+	void AttackEnd();
 	
-	bool CheckDistance(AActor* EnemyActor, AGameDCharacter* Character);
+	bool CheckDistance();
 
 	//void TakeDamage();
 
@@ -98,5 +99,17 @@ public:
 	float CalculateDamage(AActor* EnemyActor);
 
 	void CheckAmmo();
+
+public:
+
+	UPROPERTY(EditDefaultsOnly, Category = "Weapon")
+		TSubclassOf<ABaseWeapon> WeaponClass;
+
+private:
+
+	UPROPERTY()
+		ABaseWeapon* CurrentWeapon = nullptr;
+
+	void SpawnWeapon();
 
 };

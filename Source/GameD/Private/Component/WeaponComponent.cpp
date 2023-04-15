@@ -4,15 +4,13 @@
 #include "Component/WeaponComponent.h"
 #include "Kismet/GameplayStatics.h"
 #include "GameD/Public/EnemyActorD/EnemyActor_D.h"
+#include "GameFramework/Character.h"
 
 // Sets default values for this component's properties
 UWeaponComponent::UWeaponComponent()
 {
-	// Set this component to be initialized when the game starts, and to be ticked every frame.  You can turn these features
-	// off to improve performance if you don't need them.
-	PrimaryComponentTick.bCanEverTick = true;
+	PrimaryComponentTick.bCanEverTick = false;
 
-	// ...
 }
 
 
@@ -21,25 +19,23 @@ void UWeaponComponent::BeginPlay()
 {
 	Super::BeginPlay();
 
-	// ...
-	
+	SpawnWeapon();
 }
 
-
-// Called every frame
-void UWeaponComponent::TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction)
+void UWeaponComponent::Attacks()
 {
-	Super::TickComponent(DeltaTime, TickType, ThisTickFunction);
-
-	// ...
+	if (!CurrentWeapon) return;
+	CurrentWeapon->StartFire();
+	//UGameplayStatics::ApplyDamage(EnemyActor, CalculateDamage(EnemyActor),GetOwner()->GetInstigatorController(), GetOwner()->GetInstigator(), DamageType);
 }
 
-void UWeaponComponent::Attack(AActor* EnemyActor,AController* PlayerController)
+void UWeaponComponent::AttackEnd()
 {
-	UGameplayStatics::ApplyDamage(EnemyActor, CalculateDamage(EnemyActor),GetOwner()->GetInstigatorController(), GetOwner()->GetInstigator(), DamageType);
+	if (!CurrentWeapon) return;
+	CurrentWeapon->StopFire();
 }
 
-bool UWeaponComponent::CheckDistance(AActor* EnemyActor, AGameDCharacter* Character)
+bool UWeaponComponent::CheckDistance()
 {
 	return false;
 }
@@ -69,3 +65,17 @@ void UWeaponComponent::CheckAmmo()
 {
 }
 
+void UWeaponComponent::SpawnWeapon()
+{
+	if (!GetWorld()) return;
+	CurrentWeapon = GetWorld()->SpawnActor<ABaseWeapon>(WeaponClass);
+
+	ACharacter* Character = Cast<ACharacter>(GetOwner());
+	if (!Character) return;
+
+	if (CurrentWeapon)
+	{
+		FAttachmentTransformRules AttachmentRules(EAttachmentRule::SnapToTarget, false);
+		CurrentWeapon->AttachToComponent(Character->GetMesh(), AttachmentRules, "WeaponSocket");
+	}
+}

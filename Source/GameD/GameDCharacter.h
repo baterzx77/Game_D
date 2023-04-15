@@ -6,6 +6,8 @@
 #include "GameFramework/Character.h"
 #include "GameDCharacter.generated.h"
 
+class UWeaponComponent;
+
 UCLASS(config=Game)
 class AGameDCharacter : public ACharacter
 {
@@ -28,6 +30,8 @@ public:
 	/** Base look up/down rate, in deg/sec. Other scaling may affect final rate. */
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category=Camera)
 	float BaseLookUpRate;
+
+	
 
 protected:
 
@@ -146,5 +150,9 @@ public:
 
 	void CollectByAttraction();
 
+	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = "Component")
+	UWeaponComponent* WComp;
+
+	
 };
 
