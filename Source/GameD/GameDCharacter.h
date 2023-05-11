@@ -2,7 +2,7 @@
 
 #pragma once
 
-#include "CoreMinimal.h"
+#include "Engine.h"
 #include "GameFramework/Character.h"
 #include "GameDCharacter.generated.h"
 
@@ -35,6 +35,8 @@ public:
 
 protected:
 
+	class USphereComponent* CollectionSphere;
+
 	/** Resets HMD orientation in VR. */
 	void OnResetVR();
 
@@ -63,9 +65,17 @@ protected:
 	void TouchStopped(ETouchIndex::Type FingerIndex, FVector Location);
 
 protected:
+
+	virtual void Tick(float DeltaTime) override;
 	// APawn interface
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
 	// End of APawn interface
+
+	// to auto pickup
+	void CollectAutoPickups();
+
+	//to manualy pickup
+	void CheckForInteractables();
 
 public:
 	/** Returns CameraBoom subobject **/

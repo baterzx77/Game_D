@@ -8,12 +8,12 @@
 
 void ABowWeapon::StartFire()
 {
-	if (!GetWorld()) return;
-	Arrows = GetWorld()->SpawnActor<AArrows>(Arrow);
+	if (!GetBaseWorld()) return;
+	Arrows = GetBaseWorld()->SpawnActor<AArrows>(Arrow);
 
 	//if (IsEmpty()) return;
 
-	ACharacter* Character = Cast<ACharacter>(GetOwner());
+	ACharacter* Character = Cast<ACharacter>(GetBaseCharacter());
 	if (!Character) return;
 
 	if (Arrows)
@@ -21,13 +21,17 @@ void ABowWeapon::StartFire()
 		FAttachmentTransformRules AttachmentRules(EAttachmentRule::SnapToTarget, false);
 		Arrows->AttachToComponent(SkeletalMesh, AttachmentRules, "ArrowSocket");
 	}
+	//Створити функцію натяжіння 
+	// GetArrowAndPull
+	//Задати таймер на функцію натяжіння
 }
 
 void ABowWeapon::StopFire()
 {
-	FVector gg = { 0,0,0 };
+	//закінчити таймер, зберегти силу натяжіння (швидкість). 
+	//Просчитати коли видяляти об'єкт на акторі і строрювати актора для польоту
 
-	if (!GetWorld()) return;
+	if (!GetBaseWorld()) return;
 	FVector TraceStart, TraceEnd;
 	if (!GetTraceData(TraceStart, TraceEnd)) return;
 	SpawnArrow(TraceStart, TraceEnd);
@@ -36,11 +40,11 @@ void ABowWeapon::StopFire()
 void ABowWeapon::SpawnArrow(FVector TraceStart, FVector TraceEnd)
 {
 	FHitResult HitResult;
-	const FTransform SpawnTransform(FRotator::ZeroRotator, GetMuzzleWorldLocation());
+	const FTransform SpawnTransform(FRotator::ZeroRotator, GetMuzzleWorldLocation(SkeletalMesh,"ArrowSocket"));
 	const FVector EndPoint = HitResult.bBlockingHit ? HitResult.ImpactPoint : TraceEnd;
-	const FVector Direction = (EndPoint - GetMuzzleWorldLocation()).GetSafeNormal();
+	const FVector Direction = (EndPoint - GetMuzzleWorldLocation(SkeletalMesh, "ArrowSocket")).GetSafeNormal();
 
-	AArrows* Projectile = GetWorld()->SpawnActorDeferred<AArrows>(Arrow, SpawnTransform);
+	AArrows* Projectile = GetBaseWorld()->SpawnActorDeferred<AArrows>(Arrow, SpawnTransform);
 
 	if (Projectile)
 	{
@@ -50,29 +54,6 @@ void ABowWeapon::SpawnArrow(FVector TraceStart, FVector TraceEnd)
 	
 }
 
-FVector ABowWeapon::GetMuzzleWorldLocation() const
+void ABowWeapon::GetArrowAndPull()
 {
-	return SkeletalMesh->GetSocketLocation("ArrowSocket");
-}
-
-bool ABowWeapon::GetTraceData(FVector& TraceStart, FVector& TraceEnd) const
-{
-	FVector ViewPoint;
-	FRotator ViewRotation;
-
-	const auto Player = Cast<ACharacter>(GetOwner());
-
-	if (!Player) return false;
-
-	const auto Controller = Player->GetController<APlayerController>();
-
-	if (!Controller) return false;
-
-	Controller->GetPlayerViewPoint(ViewPoint, ViewRotation);
-
-	TraceStart = ViewPoint;
-	const FVector ShootDirection = ViewRotation.Vector();
-	TraceEnd = TraceStart + ShootDirection * 4000;
-	return true;
-
 }

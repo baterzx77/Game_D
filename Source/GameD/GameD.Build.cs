@@ -13,7 +13,8 @@ public class GameD : ModuleRules
         PublicIncludePaths.AddRange(new string[] { "GameD/Public/Component",
 			"GameD/Public/EnemyActorD",
 			"GameD/Public/Frendly" , 
-			"GameD/Public/Weapons"});
+			"GameD/Public/Weapons",
+		"GameD/Public/InventorySItems"});
         PrivateIncludePaths.AddRange(new string[] { "GameD/Private/Component" , "GameD/Private/EnemyActorD", "GameD/Private/Frendly" });
     }
 }

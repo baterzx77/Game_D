@@ -10,6 +10,11 @@
 #include "GameFramework/SpringArmComponent.h"
 #include "Kismet/GameplayStatics.h"
 #include "Public/Component/WeaponComponent.h"
+#include "Public/InventorySItems/Interactable.h"
+#include "Public/InventorySItems/AutoPickup.h"
+#include "Public/InventorySItems/InventoryItem.h"
+#include "Public/MyPlayerController.h"
+
 
 
 //////////////////////////////////////////////////////////////////////////
@@ -51,10 +56,25 @@ AGameDCharacter::AGameDCharacter()
 
 	WComp = CreateDefaultSubobject<UWeaponComponent>("WeaponComponent");
 	
+	//init collectable sphere
+	CollectionSphere = CreateDefaultSubobject<USphereComponent>(TEXT("CollectionSphere"));
+	CollectionSphere->SetupAttachment(RootComponent);
+	CollectionSphere->SetSphereRadius(200.f);
+
+
 }
 
 //////////////////////////////////////////////////////////////////////////
 // Input
+
+void AGameDCharacter::Tick(float DeltaTime)
+{
+	Super::Tick(DeltaTime);
+
+	CollectAutoPickups();
+	CheckForInteractables();
+
+}
 
 void AGameDCharacter::SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent)
 {
@@ -83,6 +103,54 @@ void AGameDCharacter::SetupPlayerInputComponent(class UInputComponent* PlayerInp
 	PlayerInputComponent->BindAction("ResetVR", IE_Pressed, this, &AGameDCharacter::OnResetVR);
 
 	PlayerInputComponent->BindAction("jj", IE_Pressed, WComp, &UWeaponComponent::Attacks);
+}
+
+void AGameDCharacter::CollectAutoPickups()
+{
+	TArray<AActor*> CollectedActors;
+	CollectionSphere->GetOverlappingActors(CollectedActors);
+
+	AMyPlayerController* IController = Cast<AMyPlayerController>(GetController());
+
+	for (int32 iCollected = 0; iCollected < CollectedActors.Num(); ++iCollected)
+	{
+		AAutoPickup* const TestPickup = Cast<AAutoPickup>(CollectedActors[iCollected]);
+		if (TestPickup && !TestPickup->IsPendingKill())
+		{
+			TestPickup->Collect(IController);
+		}
+	}
+}
+
+void AGameDCharacter::CheckForInteractables()
+{
+	FHitResult HitResult;
+
+	int32 Range = 500;
+
+	FVector StartTrace = FollowCamera->GetComponentLocation();
+	FVector EndTrace = (FollowCamera->GetForwardVector() * Range) + StartTrace;
+
+	FCollisionQueryParams QueryParams;
+	QueryParams.AddIgnoredActor(this);
+
+	AMyPlayerController* IController = Cast<AMyPlayerController>(GetController());
+
+	if (IController)
+	{
+		if (GetWorld()->LineTraceSingleByChannel(HitResult, StartTrace, EndTrace, ECC_Visibility, QueryParams))
+		{
+			AInteractable* Interactable = Cast<AInteractable>(HitResult.GetActor());
+
+			if (Interactable)
+			{
+				IController->CurrentInteractable = Interactable;
+				return;
+			}
+		}
+
+		IController->CurrentInteractable = nullptr;
+	}
 }
 
 void AGameDCharacter::CollectByAttraction()

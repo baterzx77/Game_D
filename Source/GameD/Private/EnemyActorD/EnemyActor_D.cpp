@@ -2,6 +2,7 @@
 
 
 #include "EnemyActorD/EnemyActor_D.h"
+#include "SwordWeapon.h"
 #include "Kismet/GameplayStatics.h"
 
 // Sets default values
@@ -16,6 +17,8 @@ AEnemyActor_D::AEnemyActor_D()
 void AEnemyActor_D::BeginPlay()
 {
 	Super::BeginPlay();
+	
+	MeleeWeaponComponent->MeleeWeapon_OnHit.AddDynamic(this, &AEnemyActor_D::RespondMeleeDamageTaken);
 }
 
 float AEnemyActor_D::TakeDamage(float DamageAmount, FDamageEvent const& DamageEvent, AController* EventInstigator, AActor* DamageCauser)
@@ -32,6 +35,11 @@ void AEnemyActor_D::LogPrint(char st[])
 void AEnemyActor_D::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
+
+}
+
+void AEnemyActor_D::RespondMeleeDamageTaken(AActor* HitActor, UPrimitiveComponent* HitComponent, const FVector& ImpactPoint, const FVector& ImpactNormal, FName HitBoneName, const FHitResult& HitResult)
+{
 
 }
 

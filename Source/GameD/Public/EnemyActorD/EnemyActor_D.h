@@ -5,6 +5,8 @@
 #include "CoreMinimal.h"
 #include "GameFramework/Actor.h"
 #include "Kismet/GameplayStatics.h"
+#include "MeleeWeapon.h"
+#include "SwordWeapon.h"
 #include "EnemyActor_D.generated.h"
 
 UCLASS()
@@ -39,5 +41,10 @@ protected:
 public:	
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
+
+	ASwordWeapon* MeleeWeaponComponent;
+
+	UFUNCTION()
+		void RespondMeleeDamageTaken(AActor* HitActor, UPrimitiveComponent* HitComponent, const FVector& ImpactPoint, const FVector& ImpactNormal, FName HitBoneName, const FHitResult& HitResult);
 
 };

@@ -14,4 +14,9 @@ class GAMED_API ARangedWeapon : public ABaseWeapon
 {
 	GENERATED_BODY()
 	
+public:
+
+	FVector GetMuzzleWorldLocation(USkeletalMeshComponent* SkeletalMeshComp, FName Socket) const;
+
+	bool GetTraceData(FVector& TraceStart, FVector& TraceEnd) const;
 };

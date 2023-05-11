@@ -21,6 +21,7 @@ ABaseWeapon::ABaseWeapon()
 
 
 	BoxCollision->OnComponentBeginOverlap.AddDynamic(this, &ABaseWeapon::OnOverlapBegin);
+	BoxCollision->OnComponentEndOverlap.AddDynamic(this, &ABaseWeapon::OnOverlapEnd);
 }
 
 void ABaseWeapon::StopFire()
@@ -47,6 +48,11 @@ void ABaseWeapon::OnOverlapBegin(
 		OtherActor->Destroy();
 		IsAttacking = false;
 	}
+}
+
+void ABaseWeapon::OnOverlapEnd(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex)
+{
+
 }
 
 // Called when the game starts or when spawned

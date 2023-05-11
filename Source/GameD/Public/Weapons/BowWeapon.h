@@ -4,6 +4,7 @@
 
 #include "CoreMinimal.h"
 #include "Weapons/BaseWeapon.h"
+#include "Weapons/RangedWeapon.h"
 #include "BowWeapon.generated.h"
 
 class AArrows;
@@ -12,7 +13,7 @@ class AArrows;
  * 
  */
 UCLASS()
-class GAMED_API ABowWeapon : public ABaseWeapon
+class GAMED_API ABowWeapon : public ARangedWeapon
 {
 	GENERATED_BODY()
 	
@@ -32,6 +33,8 @@ public:
 	UPROPERTY(EditAnywhere)
 		 TSubclassOf<AArrows> Arrow;
 
-	FVector GetMuzzleWorldLocation() const;
-	bool GetTraceData(FVector& TraceStart, FVector& TraceEnd) const;
+	/*FVector GetMuzzleWorldLocation(USkeletalMeshComponent* SkeletalMeshComp) const;
+
+	bool GetTraceData(FVector& TraceStart, FVector& TraceEnd) const;*/
+
 };
