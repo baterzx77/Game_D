@@ -3,7 +3,7 @@
 
 #include "MyPlayerController.h"
 #include "MyGameStateBase.h"
-#include "GameDCharacter.h"
+#include "../GameDCharacter.h"
 
 AMyPlayerController::AMyPlayerController()
 {
@@ -11,9 +11,6 @@ AMyPlayerController::AMyPlayerController()
 	InventoryWeightLimit = 500;
 }
 
-void AMyPlayerController::ReloadInventory()
-{
-}
 
 int32 AMyPlayerController::GetInventoryWeight()
 {
