@@ -24,6 +24,8 @@ public:
 
 	virtual void StartFire() override;
 
+	virtual void StopFire() override;
+
 	FMeleeHitSignature MeleeWeapon_OnHit;
 
 protected:

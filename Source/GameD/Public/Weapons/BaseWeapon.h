@@ -38,6 +38,8 @@ public:
 
 	AActor* GetBaseCharacter() { return GetOwner(); }
 
+	FTimerHandle TimerHandler;
+
 protected:
 
 	virtual void BeginPlay() override;

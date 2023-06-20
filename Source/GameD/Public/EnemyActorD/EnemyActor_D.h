@@ -30,6 +30,9 @@ public:
 	UPROPERTY()
 		float IceMagicResist;
 
+	UPROPERTY()
+	float Health = 0;
+
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
@@ -43,6 +46,7 @@ public:
 	virtual void Tick(float DeltaTime) override;
 
 	ASwordWeapon* MeleeWeaponComponent;
+	
 
 	UFUNCTION()
 		void RespondMeleeDamageTaken(AActor* HitActor, UPrimitiveComponent* HitComponent, const FVector& ImpactPoint, const FVector& ImpactNormal, FName HitBoneName, const FHitResult& HitResult);

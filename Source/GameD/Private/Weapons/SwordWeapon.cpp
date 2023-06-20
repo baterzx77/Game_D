@@ -14,38 +14,36 @@ ASwordWeapon::ASwordWeapon()
 
 void ASwordWeapon::StartFire()
 {
-	IsAttacking = true;
-	
-	
-
-	UE_LOG(LogTemp, Warning, TEXT("Activate Overlaped Component"));
-
-	//SkeletalMesh->OnComponentBeginOverlap.Clear()
-	/*AGameDCharacter* Character = Cast<AGameDCharacter>(GetOwner());
-	if (!Character)
+	if (!IsAttacking) 
 	{
-		UE_LOG(LogTemp, Warning,TEXT("None Character awayable"));
-		IsAttacking = false;
-		return;
+		IsAttacking = true;
+		UE_LOG(LogTemp, Warning, TEXT("Activate Overlaped Component & set timer duration 1 sec"));
+
+		GetWorld()->GetTimerManager().SetTimer(TimerHandler, this, &ASwordWeapon::StopFire, 2.0f);
+
 	}
-
-	Character->PlayAnimMontage(AnimMontage);*/
-
 }
 
 void ASwordWeapon::OnOverlapBegin(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult)
 {
+	
 	AEnemyActor_D* EnemyActor = Cast<AEnemyActor_D>(OtherActor);
-	UE_LOG(LogTemp, Warning, TEXT("Base Overlaped Component"));
+
 	if (OtherActor == EnemyActor && IsAttacking)
 	{
 		UE_LOG(LogTemp, Warning, TEXT("Do Damage Overlaped Component"));
-		/*OtherActor->Destroy();
-		IsAttacking = false;
-		SkeletalMesh->OnComponentBeginOverlap.Clear();*/
-		MeleeWeapon_OnHit.Broadcast(SweepResult.GetActor(), SweepResult.GetComponent(), SweepResult.ImpactPoint, SweepResult.ImpactNormal, SweepResult.BoneName, SweepResult);
-
+		TSubclassOf<UDamageType> DM;
+		UGameplayStatics::ApplyDamage(OtherActor, 1.0f, GetOwner()->GetInstigatorController(), this, DM);
+	}
+	else if (OtherActor == EnemyActor && !IsAttacking)
+	{
+		UE_LOG(LogTemp, Warning, TEXT("Base Overlaped Component without attack"));
 	}
 	
-	
+}
+
+void ASwordWeapon::StopFire()
+{
+	IsAttacking = false;
+	UE_LOG(LogTemp, Warning, TEXT("Attacking false"));
 }

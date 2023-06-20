@@ -18,12 +18,12 @@ void AEnemyActor_D::BeginPlay()
 {
 	Super::BeginPlay();
 	
-	MeleeWeaponComponent->MeleeWeapon_OnHit.AddDynamic(this, &AEnemyActor_D::RespondMeleeDamageTaken);
+	//MeleeWeaponComponent->MeleeWeapon_OnHit.AddDynamic(this, &AEnemyActor_D::RespondMeleeDamageTaken);
 }
 
 float AEnemyActor_D::TakeDamage(float DamageAmount, FDamageEvent const& DamageEvent, AController* EventInstigator, AActor* DamageCauser)
 {
-	return 0;
+	return Health = Health - DamageAmount;
 }
 
 void AEnemyActor_D::LogPrint(char st[])
